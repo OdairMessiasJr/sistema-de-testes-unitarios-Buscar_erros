@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JS Code Quest | Trilha de 10 Testes Integrados</title>
+  <!-- Google Fonts: Inter & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-default-track="integration">
+  <div class="app-layout">
+
+    <!-- CABEÇALHO SUPERIOR DA TRILHA -->
+    <header class="top-navbar">
+      <div class="brand-area">
+        <span class="brand-icon" id="header-brand-icon">🔗</span>
+        <div class="brand-text">
+          <span class="brand-name">JS Code Quest</span>
+          <span class="brand-subtitle" id="header-brand-subtitle">Trilha de Testes Integrados</span>
+        </div>
+      </div>
+
+      <!-- Seletor de Trilha (Unitários vs Integrados) -->
+      <div class="track-switch-container" id="track-switch-container">
+        <button id="track-unit-btn" class="track-tab-btn" title="Alternar para Trilha de Testes Unitários">
+          ⚡ Testes Unitários
+        </button>
+        <button id="track-integration-btn" class="track-tab-btn active" title="Alternar para Trilha de Testes Integrados">
+          🔗 Testes Integrados
+        </button>
+      </div>
+
+      <!-- Navegador Rápido de Desafios -->
+      <div class="challenge-stepper">
+        <button id="prev-challenge-btn" class="nav-arrow-btn" title="Desafio anterior" disabled>
+          ◀
+        </button>
+        
+        <button id="open-roadmap-btn" class="challenge-dropdown-btn" title="Ver todos os 10 desafios da trilha">
+          <span id="current-badge-status" class="status-indicator"></span>
+          <span id="current-challenge-summary" class="challenge-summary-text">
+            Desafio 1 de 10: Processador de Checkout E-commerce
+          </span>
+          <span class="dropdown-chevron">▾</span>
+        </button>
+
+        <button id="next-challenge-btn" class="nav-arrow-btn" title="Próximo desafio" disabled>
+          ▶
+        </button>
+      </div>
+
+      <!-- Barra de Progresso Global da Trilha -->
+      <div class="progress-container">
+        <div class="progress-labels">
+          <span class="progress-text" id="progress-track-label">Progresso Integrado</span>
+          <span id="progress-percentage" class="progress-val">0%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div id="progress-bar-fill" class="progress-bar-fill" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <!-- Ações Gerais -->
+      <div class="top-actions">
+        <button id="reset-all-progress-btn" class="btn-ghost-danger" title="Reiniciar toda a trilha de testes integrados">
+          Resetar Trilha
+        </button>
+      </div>
+    </header>
+
+    <!-- ÁREA PRINCIPAL DIVIDIDA EM 2 COLUNAS -->
+    <div class="main-content">
+      
+      <!-- COLUNA ESQUERDA: INSTRUÇÕES DINÂMICAS DO DESAFIO -->
+      <aside class="left-panel">
+        <header class="panel-header">
+          <div class="badge-group" id="challenge-badges">
+            <!-- Badges injetadas dinamicamente -->
+          </div>
+          <h1 class="challenge-title" id="challenge-title">Carregando Desafio de Integração...</h1>
+        </header>
+
+        <div class="panel-body" id="challenge-body">
+          <!-- Conteúdo detalhado injetado pelo script.js -->
+        </div>
+      </aside>
+
+      <!-- COLUNA DIREITA: MONACO EDITOR (SUPERIOR) & TERMINAL JEST (INFERIOR) -->
+      <main class="right-panel">
+        
+        <!-- Editor Section -->
+        <div class="editor-section">
+          <div class="editor-header">
+            <div class="tab-active">
+              <span class="file-icon">JS</span>
+              <span id="editor-tab-name">solucao.js</span>
+              <span id="editor-saved-status" class="saved-tag">salvo</span>
+            </div>
+            <div class="editor-actions">
+              <button id="reset-code-btn" class="btn btn-secondary" title="Restaurar template original deste desafio">
+                ↺ Resetar Código
+              </button>
+              <button id="run-btn" class="btn btn-primary" title="Executar testes integrados (Ctrl+Enter)">
+                ▶ Executar Testes
+              </button>
+            </div>
+          </div>
+
+          <!-- Container do Monaco Editor -->
+          <div id="monaco-container" class="monaco-wrapper"></div>
+        </div>
+
+        <!-- Terminal Section (Resultados dos Testes estilo Jest) -->
+        <div class="terminal-panel">
+          <div class="terminal-header">
+            <div class="terminal-title-group">
+              <span class="terminal-indicator" id="terminal-status-dot"></span>
+              <span class="terminal-title">Integration Test Runner (Jest Environment)</span>
+              <span class="shortcut-badge">Ctrl + Enter</span>
+            </div>
+            <div class="terminal-actions">
+              <button id="clear-console-btn" class="btn-clear" title="Limpar terminal">
+                Limpar
+              </button>
+            </div>
+          </div>
+
+          <!-- Console de Saída dos Testes -->
+          <div id="terminal-output" class="terminal-console">
+            <!-- Os resultados dos testes em formato Jest serão injetados aqui -->
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+
+    <!-- MODAL DO MAPA DA TRILHA (LISTA DOS 10 DESAFIOS) -->
+    <div id="roadmap-modal" class="modal-overlay hidden">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div class="modal-title-wrap">
+            <h2>🗺️ Mapa da Trilha de Testes Integrados</h2>
+            <p class="modal-subtitle">Encontre os erros de integração no código, corrija e faça todos os testes passarem para desbloquear o próximo desafio.</p>
+          </div>
+          <button id="close-roadmap-btn" class="modal-close-btn" title="Fechar">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="challenge-grid" id="challenge-grid">
+            <!-- Os 10 cards gerados dinamicamente -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Monaco Editor via RequireJS CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
+  <script src="integration-challenges.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
